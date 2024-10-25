@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="assets/img/logo1.png">
+    <title>VLearn</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <!-- Toastify -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./css/styles.css">
+    <script src="./js/main.js" type="module"></script>
+    <script type="module" src="./firebase.js"></script>
+    <script src="./js/index.js" type="module"></script>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <div class="container">
+        <nav class="navbar navbar-expand-lg ">
+            <div class="container-fluid">
+                <figure class="navbar-logo">
+                    <img src="./assets/img/logo2.png" alt="Logo" class="logo">
+                </figure>
+
+
+                <div className="flex items-center space-x-2">
+
+                    <button
+                        style="background:white;border:none;color:black;padding:.5rem .75rem;border-radius:.5rem;font-size:.875rem"
+                        class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-list" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
+                        </svg>
+                    </button>
+                </div>
+
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">Explorar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="cursosLink">Cursos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" id="certificacionesLink">Certificaciones</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Empresas</a>
+                        </li>
+                        <!-- <li class="nav-item">
+                            <a class="nav-link logged-in" href="#" id="logout">Cerrar Sesión</a>
+                        </li> -->
+                    </ul>
+                    <button class="btn btn-outline-success btn-sm me-2 logged-out" style="color: white;" href="#"
+                        data-bs-toggle="modal" data-bs-target="#signinModal"><i class="fa-solid fa-key"></i> Iniciar
+                        Sesión</button>
+                    <button class="btn btn-outline-secondary btn-sm logged-out" style="color: white;" href="#"
+                        data-bs-toggle="modal" data-bs-target="#signupModal"><i class="fa-solid fa-address-card"></i>
+                        Crear Cuenta</button>
+                    <button class="btn btn-outline-primary btn-sm me-2 logged-in" style="color: white;"
+                        onclick="window.location.href='html/profile.html'" id="profile"><i class="fa-solid fa-user"></i>
+                        Perfil</button>
+                    <button class="btn btn-outline-danger btn-sm logged-in" style="color: white;" href="#"
+                        id="logout"><i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión</button>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <!-- FIN DEL HEADER -->
+
+    <!-- PERFIL DEL USUARIO -->
+    <div class="container" style="max-width: 500px; display: none;">
+        <div class="card mb-4 mt-4 text-white form-profile">
+            <div class="card-body">
+                <form id="form-profile">
+                    <div class="form-group text-center">
+                        <img id="imagen-perfil" src="/assets/img/temp-profile.png" alt="Foto de perfil"
+                            class="img-fluid rounded-circle mb-3" style="width: 150px; height: 150px;">
+                    </div>
+                    <div class="form-group">
+                        <label for="foto-usuario">Agregar foto de perfil</label>
+                        <input type="file" class="form-control" id="foto-usuario">
+                    </div>
+                    <div class="form-group">
+                        <label for="nombre-usuario">Nombre de usuario</label>
+                        <input type="text" id="nombre-usuario" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="correo-usuario">Correo electónico</label>
+                        <input type="text" id="correo-usuario" class="form-control" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="rol-usuario">Rol</label>
+                        <input type="text" id="rol-usuario" class="form-control" disabled>
+                    </div>
+                    <div class="form-group mt-3 d-flex justify-content-end">
+                        <button class="btn btn-outline-secondary btn-sm text-white" id="bnt-add-certificacion">Guardar
+                            cambios</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL -->
+    <div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content fondo-custom">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Crear Cuenta</h1>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="signup-form">
+                        <label for="displayName">Usuario:</label>
+                        <input type="text" id="singup-displayName" class="form-control mb-3" placeholder="Usuario"
+                            required>
+
+                        <label for="email">Correo:</label>
+                        <input type="email" id="singup-email" class="form-control mb-3" placeholder="Correo eléctronico"
+                            required>
+
+                        <label for="password">Contraseña:</label>
+                        <input type="password" id="singup-password" class="form-control mb-3" placeholder="Contraseña"
+                            required>
+
+                        <button type="submit" class="btn btn btn-outline-secondary"
+                            style="color: white;">Registrarse</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signin Modal -->
+    <div class="modal fade" id="signinModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content fondo-custom">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Iniciar Sesión</h1>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="" id="signin-form">
+                        <label for="email">Correo:</label>
+                        <input type="email" id="signin-email" class="form-control mb-3" placeholder="Correo eléctronico"
+                            required>
+
+                        <label for="password">Contraseña:</label>
+                        <input type="password" id="signin-password" class="form-control mb-3" placeholder="Contraseña"
+                            required>
+
+                        <button type="submit" class="btn btn-outline-secondary w-100" style="color: white;">Iniciar
+                            Sesión</button>
+                    </form>
+
+                    <!-- Google, Facebook, Outlook, etc -->
+                    <div class="separator">
+                        <div class="separator-line"></div>
+                        <div class="separator-text">o</div>
+                        <div class="separator-line"></div>
+                    </div>
+
+                    <button class="btn btn-light w-100 mb-3" id="btnGoogle">Google</button>
+                    <button class="btn btn-primary w-100 mb-3" id="btnFacebook">Facebook</button>
+                    <!-- <button class="btn btn-secondary w-100" id="btnGithub">Github</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- FIN DE MODAL -->
+
+    <main class="container-fluid text-center">
+
+        <!-- TEXTO PLANO -->
+        <div class="container">
+            <div class="hero-content mt-4">
+                <h1 class="TituloTexto">La escuela de tecnología <br><span>de Latinoamérica</span></h1>
+            </div>
+
+            <div hidden class="hero-content mt-5">
+                <h5>Más de 5 millones de estudiantes y más</h5>
+                <h5> de 3.000 empresas aprenden en Platzi </h5>
+            </div>
+
+            <div class="hero-content mt-3">
+
+                <article id="courses-search" class="CoursesSearch_CoursesSearch__vXhJ8" role="presentation"
+                    aria-expanded="false" aria-haspopup="listbox" aria-labelledby="autocomplete-0-label">
+
+
+                    <label for="autocomplete-0-input" id="courses-search-label">¿Qué quieres aprender?</label>
+                    <input aria-autocomplete="both" aria-labelledby="autocomplete-0-label" id="autocomplete-0-input"
+                        autoComplete="off" autoCorrect="off" autoCapitalize="off" enterKeyHint="search"
+                        spellCheck="false" placeholder="Buscar cursos" maxLength="512" type="text" value="" />
+
+
+
+                    <button id="searchIconBtn" aria-label="Search Icon Btn"><svg width="1em" height="1em" fill="none"
+                            viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="m18.334 18.333-3.322-3.321m-11.346-4.7a6.646 6.646 0 1 0 6.646-6.645v0a6.646 6.646 0 0 0-6.645 6.646">
+                            </path>
+                        </svg>
+                    </button>
+
+                </article>
+
+            </div>
+
+            <div hidden class="hero-content">
+                <h6>Empieza cualquier curso sin costo. <br /> O consigue
+                    <a href="" style="color: white;" target="_blank">Platzi para tu empresa</a>
+                </h6>
+            </div>
+
+            <div class="hero-content"></div>
+            <!-- FIN DE TEXTO PLANO -->
+        </div>
+
+
+
+        <div class="container">
+            <!-- TARJETAS -->
+            <div class="row" id="courseContainer"></div>
+            <button id="toggleButton" class="btn btn-outline-info my-1">Mostrar más cursos</button>
+            <!-- FIN DE TARJETAS -->
+
+            <!-- CERTIFICACIONES -->
+
+        </div>
+
+        <!-- FIN DE MARCAS -->
+        <div class="container py-5">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="certification-card p-4 d-flex flex-column">
+                        <img src="./assets/img/practicioner.png" alt="TOEFL" class="certification-logo mb-3"
+                            style="max-height: 100px;">
+                        <h5 class="h5 mb-3">Alianza con AWS para la certificación</h5>
+                        <div class="mt-auto">
+                            <a href="#" class="btn btn-outline-light d-inline-flex align-items-center">
+                                Ir a los cursos
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="ms-2">
+                                    <path d="M5 12h14"></path>
+                                    <path d="m12 5 7 7-7 7"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="certification-card p-4 d-flex flex-column">
+                        <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_light_color_272x92dp.png"
+                            alt="Google" class="certification-logo mb-3" style="max-height: 70px;">
+                        <h3 class="h5 mb-3">Convenio de certificación en tecnologías cloud</h3>
+                        <div class="mt-auto">
+                            <a href="#" class="btn btn-outline-light d-inline-flex align-items-center">
+                                Ir a los cursos
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="ms-2">
+                                    <path d="M5 12h14"></path>
+                                    <path d="m12 5 7 7-7 7"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="certification-card p-4 d-flex flex-column">
+                        <img src="https://www.lindenwood.edu/files/resources/xcomptia-aplus-logo.png.pagespeed.ic.51sgZQp_Qo.png"
+                            alt="CompTIA Security+" class="certification-logo mb-3" style="max-height: 100px;">
+                        <h3 class="h5 mb-3">Domina la seguridad digital con CompTIA security+</h3>
+                        <div class="mt-auto">
+                            <a href="#" class="btn btn-outline-light d-inline-flex align-items-center">
+                                Ir a los cursos
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="ms-2">
+                                    <path d="M5 12h14"></path>
+                                    <path d="m12 5 7 7-7 7"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- FIN DE CERTIFICACIONES -->
+        </div>
+        </div>
+
+
+
+
+        <!-- MARCAS -->
+        <div class="container-fluid my-5">
+
+            <!-- Slider continuo -->
+            <div class="marquee-wrapper">
+                <div class="marquee-content" id="marquee">
+                    <div class="company-logo">
+                        <img src="https://static.platzi.com/cdn-cgi/image/width=384,quality=75,format=auto/ms-landings-admin/media/davivienda_a4d7872c1c.svg"
+                            alt="Davivienda">
+                    </div>
+                    <div class="company-logo">
+                        <img src="https://static.platzi.com/cdn-cgi/image/width=256,quality=75,format=auto/ms-landings-admin/media/Fundacion_grupo_social_0aa7561224.svg"
+                            alt="Fundación Grupo Social">
+                    </div>
+                    <div class="company-logo">
+                        <img src="https://static.platzi.com/cdn-cgi/image/width=96,quality=75,format=auto/ms-landings-admin/media/grupoexito_024e3d77b4.svg"
+                            alt="Grupo Éxito">
+                    </div>
+                    <div class="company-logo">
+                        <img src="https://static.platzi.com/cdn-cgi/image/width=256,quality=75,format=auto/ms-landings-admin/media/gruposura_e9e5efdf0b.svg"
+                            alt="Sura">
+                    </div>
+                    <div class="company-logo">
+                        <img src="https://static.platzi.com/cdn-cgi/image/width=128,quality=75,format=auto/ms-landings-admin/media/mapfre_3fabe6a7f0.svg"
+                            alt="Mapfre">
+                    </div>
+                    <div class="company-logo">
+                        <img src="https://static.platzi.com/cdn-cgi/image/width=128,quality=75,format=auto/ms-landings-admin/media/rappi_0cce7f9f43.svg"
+                            alt="Rappi">
+                    </div>
+                    <div class="company-logo">
+                        <img src="https://static.platzi.com/media/uploads/avianca_86876f8bb8.svg" alt="Avianca">
+                    </div>
+                    <div class="company-logo">
+                        <img src="https://static.platzi.com/cdn-cgi/image/width=256,quality=75,format=auto/ms-landings-admin/media/Lenovo_65f74f30af.svg"
+                            alt="Lenovo">
+                    </div>
+                    <div class="company-logo">
+                        <img src="https://static.platzi.com/media/uploads/bancolombia_114ce59ab3.svg" alt="Bancolombia">
+                    </div>
+                    <div class="company-logo">
+                        <img src="https://static.platzi.com/cdn-cgi/image/width=384,quality=75,format=auto/ms-landings-admin/media/colsubsidio_9e843d8531.svg"
+                            alt="Colsubsidio">
+                    </div>
+
+                    <div class="company-logo">
+                        <img src="https://static.platzi.com/cdn-cgi/image/width=384,quality=75,format=auto/ms-landings-admin/media/davivienda_a4d7872c1c.svg"
+                            alt="Davivienda">
+                    </div>
+                    <div class="company-logo">
+                        <img src="https://static.platzi.com/cdn-cgi/image/width=256,quality=75,format=auto/ms-landings-admin/media/Fundacion_grupo_social_0aa7561224.svg"
+                            alt="Fundación Grupo Social">
+                    </div>
+                    <div class="company-logo">
+                        <img src="https://static.platzi.com/cdn-cgi/image/width=96,quality=75,format=auto/ms-landings-admin/media/grupoexito_024e3d77b4.svg"
+                            alt="Grupo Éxito">
+                    </div>
+                    <div class="company-logo">
+                        <img src="https://static.platzi.com/cdn-cgi/image/width=256,quality=75,format=auto/ms-landings-admin/media/gruposura_e9e5efdf0b.svg"
+                            alt="Sura">
+                    </div>
+                    <div class="company-logo">
+                        <img src="https://static.platzi.com/cdn-cgi/image/width=128,quality=75,format=auto/ms-landings-admin/media/mapfre_3fabe6a7f0.svg"
+                            alt="Mapfre">
+                    </div>
+                    <div class="company-logo">
+                        <img src="https://static.platzi.com/cdn-cgi/image/width=128,quality=75,format=auto/ms-landings-admin/media/rappi_0cce7f9f43.svg"
+                            alt="Rappi">
+                    </div>
+                    <div class="company-logo">
+                        <img src="https://static.platzi.com/media/uploads/avianca_86876f8bb8.svg" alt="Avianca">
+                    </div>
+                    <div class="company-logo">
+                        <img src="https://static.platzi.com/cdn-cgi/image/width=256,quality=75,format=auto/ms-landings-admin/media/Lenovo_65f74f30af.svg"
+                            alt="Lenovo">
+                    </div>
+                    <div class="company-logo">
+                        <img src="https://static.platzi.com/media/uploads/bancolombia_114ce59ab3.svg" alt="Bancolombia">
+                    </div>
+                    <div class="company-logo">
+                        <img src="https://static.platzi.com/cdn-cgi/image/width=384,quality=75,format=auto/ms-landings-admin/media/colsubsidio_9e843d8531.svg"
+                            alt="Colsubsidio">
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+
+        <!-- PERSONAS -->
+        <div class="container-fluid py-5" style="background: rgb(4, 99, 100);
+">
+            <div class="container">
+                <h1 class="mb-4" style="color: rgb(255, 255, 255);">Nuestros profesores son expertos de la industria
+                </h1>
+                <div class="row g-4">
+                    <div class="col-md-3">
+                        <div class="professor-card">
+                            <img src="./images/person_4.jpg" alt="Carli Florida" class="professor-image">
+                            <div class="professor-info">
+                                <h3>Carli Florida</h3>
+                                <p>Teacher In-house en Platzi</p>
+                                <a href="#" class="course-link">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/1869px-Python-logo-notext.svg.png"
+                                        alt="Python" class="course-icon">
+                                    Curso de Python
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="professor-card">
+                            <img src="./images/person_3.jpg" alt="Anibal Rojas" class="professor-image">
+                            <div class="professor-info">
+                                <h3>Anibal Rojas</h3>
+                                <p>VP de Ingeniería en Platzi</p>
+                                <a href="#" class="course-link">
+                                    <img src="https://freelogopng.com/images/all_img/1681038242chatgpt-logo-png.png"
+                                        alt="ChatGPT" class="course-icon">
+                                    Curso de ChatGPT para Empresas
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="professor-card">
+                            <img src="./images/person_1.jpg" alt="Carolina Castañeda" class="professor-image">
+                            <div class="professor-info">
+                                <h3>David Hernandez</h3>
+                                <p>Online Tech Teacher en Platzi</p>
+                                <a href="#" class="course-link">
+                                    <img src="https://cdn-icons-png.freepik.com/512/8754/8754965.png" alt="SQL"
+                                        class="course-icon">
+                                    Curso de Bases de Datos con SQL
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="professor-card">
+                            <img src="./images/person_2.jpg" alt="Luis Martínez" class="professor-image">
+                            <div class="professor-info">
+                                <h3>Luis Martínez</h3>
+                                <p>Platform Engineer en Deel</p>
+                                <a href="#" class="course-link">
+                                    <img src="https://img-c.udemycdn.com/course/750x422/5181936_1fc3.jpg" alt="Django"
+                                        class="course-icon">
+                                    Curso de Django
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- FIN PERSONAS -->
+
+
+
+
+        <!-- Inicio Sección ¿Por qué elegirnos? -->
+        <div class="why-choose-section">
+            <div class="container">
+                <div class="row justify-content-between align-items-center">
+                    <div class="col-lg-6">
+                        <h2 class="section-title">¿Por qué elegir nuestros cursos?</h2>
+                        <p>Nuestros cursos están diseñados para ofrecer una experiencia de aprendizaje única, combinando
+                            teoría y práctica de manera efectiva. Nos aseguramos de que cada estudiante reciba una
+                            educación de calidad, con materiales actualizados y el apoyo necesario para su crecimiento
+                            profesional.</p>
+
+                        <div class="row my-5">
+                            <div class="col-6 col-md-6">
+                                <div class="feature">
+                                    <div class="icon">
+                                        <img src="./assets/img/entrega-rapida.png" width="50" height="50"
+                                            alt="Envío rápido" class="img-fluid">
+                                    </div>
+                                    <h3>Acceso inmediato</h3>
+                                    <p>Accede a todos los materiales del curso de forma instantánea al momento de la
+                                        inscripción, sin tiempos de espera.</p>
+                                </div>
+                            </div>
+
+                            <div class="col-6 col-md-6">
+                                <div class="feature">
+                                    <div class="icon">
+                                        <img src="./assets/img/bombilla.png" width="50" height="50" alt="Fácil de usar"
+                                            class="img-fluid">
+                                    </div>
+                                    <h3>Facilidad de aprendizaje</h3>
+                                    <p>Plataforma amigable que permite una navegación sencilla y un aprendizaje
+                                        eficiente.</p>
+                                </div>
+                            </div>
+
+                            <div class="col-6 col-md-6">
+                                <div class="feature">
+                                    <div class="icon">
+                                        <img src="./assets/img/apoyo-tecnico.png" width="50" height="50"
+                                            alt="Soporte 24/7" class="img-fluid">
+                                    </div>
+                                    <h3>Soporte 24/7</h3>
+                                    <p>Contamos con un equipo de soporte disponible en todo momento para ayudarte con
+                                        cualquier consulta técnica o académica.</p>
+                                </div>
+                            </div>
+
+                            <div class="col-6 col-md-6">
+                                <div class="feature">
+                                    <div class="icon">
+                                        <img src="images/return.svg" alt="Devoluciones fáciles" class="img-fluid">
+                                    </div>
+                                    <h3>Garantía de satisfacción</h3>
+                                    <p>Si no estás satisfecho con el curso, ofrecemos una política de reembolso sin
+                                        complicaciones.</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-lg-5">
+                        <div class="img-wrap">
+                            <img src="./assets/img/why us.png" alt="Imagen del curso" class="img-fluid">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- Fin Sección ¿Por qué elegirnos? -->
+
+
+    </main>
+
+
+
+    <!-- DEPENDENCIAS Y LIBRERIAS JS-->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+</body>
+
+</html>

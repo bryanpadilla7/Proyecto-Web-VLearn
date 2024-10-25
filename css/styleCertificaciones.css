@@ -1,0 +1,68 @@
+/* body {
+    background-color: #13161c;
+    background-image: radial-gradient(37.88% 68.62% at 50% 0, rgba(186, 85, 211, 0.3) 0%, rgba(148, 0, 211, 0) 80%),
+        radial-gradient(10% 10% at 50% 0, rgba(255, 105, 180, 0.5) 0%, rgba(255, 20, 147, 0.4) 90%, rgba(255, 20, 147, 0) 100%),
+        radial-gradient(100% 28.09% at 100% 10%, rgba(186, 85, 211, 0.2) 0%, rgba(148, 0, 211, 0.1) 80%, rgba(148, 0, 211, 0) 100%),
+        linear-gradient(180deg, rgba(148, 0, 211, 0.075) 35.79%, rgba(148, 0, 211, 0.05) 80%, #13161c),
+        radial-gradient(74.84% 135.56% at 100% 10%, rgba(186, 85, 211, 0.5) 0%, #13161c 80%);
+    background-repeat: no-repeat;
+    height: 100svh;
+    z-index: -2;
+    top: -50px;
+    left: -50px;
+    right: -50px;
+    width: calc(100% + 100px);
+    overflow-x: hidden;
+} */
+
+/* .custom-placeholder::placeholder {
+    color: white;
+    opacity: 1;
+} */
+
+
+option {
+    color: black;
+
+}
+
+.glowing-border {
+    border: 2px solid #28a745; 
+    border-radius: 10px; 
+    box-shadow: 0 0 15px rgba(40, 167, 69, 0.6);
+    transition: box-shadow 0.3s ease-in-out; 
+}
+
+.glowing-border:hover {
+    box-shadow: 0 0 25px rgba(40, 167, 69, 1); 
+}
+
+.efecto {
+    background-color: #003366;
+    border-radius: 0.5rem;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    height: 30rem; 
+    padding: 1rem;
+}
+
+.efecto-modal{
+    background: #002D62
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.btn-container {
+    display: flex;
+    justify-content: flex-end; /* Alinea los botones al final horizontalmente */
+}
+
+.btn-container button {
+    margin-left: 5px; /* Añade espacio entre los botones */
+}
+
