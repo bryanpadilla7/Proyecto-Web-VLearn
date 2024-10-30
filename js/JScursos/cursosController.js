@@ -8,6 +8,8 @@ import {
   updateDoc,
   deleteDoc,
   onSnapshot,
+  query,
+  where,
 } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
 
 import {
@@ -16,6 +18,8 @@ import {
   uploadBytes,
   getDownloadURL,
 } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-storage.js";
+
+import { showToast } from "../showToast.js";
 
 export class Curso {
   constructor(title, image, description, duration, requirements) {
@@ -49,12 +53,13 @@ export const saveCourses = async (curso) => {
       doc(collection(db, `courses`)),
       JSON.parse(JSON.stringify(curso))
     );
+    showToast("Curso creado con éxito.");
   } catch (error) {
-    alert("Hubo un error al crear el curso, inténtalo de nuevo.");
+    showToast("Hubo un error al crear el curso, inténtalo de nuevo.", "error");
   }
 };
 
-export const getCourse = (id) => getDoc(doc(db, `task`, id));
+export const getCourse = (id) => getDoc(doc(db, `courses`, id));
 
 export const deleteCourse = (id) => deleteDoc(doc(db, `courses`, id));
 
@@ -72,10 +77,54 @@ export const updateCourse = async (id, curso) => {
     // actualiza el curso en Firestore lo paso a string porque no acepta objetos de clases
 
     await updateDoc(doc(db, `courses`, id), JSON.parse(JSON.stringify(curso)));
+    showToast("Edicion del curso finalizada.");
   } catch (error) {
-    alert("Hubo un error al actualizado el curso, inténtalo de nuevo.");
+    showToast(
+      "Hubo un error al actualizado el curso, inténtalo de nuevo.",
+      "error"
+    );
   }
 };
 
 export const onGetCourses = (callback) =>
   onSnapshot(collection(db, `courses`), callback);
+
+/* contenido del curso */
+
+export const saveContent = async (courseContent) => {
+  try {
+    // Guardar el curso en Firestore lo paso a string porque no acepta objetos de clases
+    await setDoc(
+      doc(collection(db, `coursesContent`)),
+      JSON.parse(JSON.stringify(courseContent))
+    );
+    showToast("Contenido agregado exitosamente.");
+  } catch (error) {
+    alert("error, al cargar los cursos", "error");
+  }
+};
+
+export const updateContent = async (id, courseContent) => {
+  try {
+    await updateDoc(
+      doc(db, `coursesContent`, id),
+      JSON.parse(JSON.stringify(courseContent))
+    );
+    showToast("Contenido editado exitosamente.");
+  } catch (error) {
+    alert("Hubo un error al actualizado el contenido del curso.");
+  }
+};
+
+export const deleteContent = (id) => {
+  deleteDoc(doc(db, `coursesContent`, id));
+  showToast("Contenido eliminado exitosamente.");
+};
+
+export const onGetContetCourseById = async (idCourse, callback) => {
+  const consulta = query(
+    collection(db, "coursesContent"),
+    where("idCourse", "==", idCourse)
+  );
+  onSnapshot(consulta, callback);
+};
